@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="index.css">
+    <title>Sobro Price Tracker</title>
+</head>
+<body>
+    <header>
+        Sobro Coffee Table Price Comparison
+    </header>
+    <p class="summary">
+        The Sobro Coffee Table is a smart coffee table that proves to be a really cool piece of tech. Not only does it function as a stylish and well-sized coffee table with ambient LED lighting, 
+        but also as a fridge, a Bluetooth speaker, and a charging station. Sounds kinda fun, right? Well, the only issue with this product is the price tag. As someone who has been scouring the
+        web to find a good deal on this thing for months (be it used or new), the best price I could find was on Wayfair.com for just shy of $900 before tax. Sadly, this was during their Black Friday 
+        sale and I took a different deal that ended up not working out, so who knows if that kind of deal will ever come back? Well... With this application, we all can!
+        <br/>
+        <br/>
+        The purpose of this application is to scrape the current prices of the Sobro Coffee Table from major retailers. In this application, we retrieve prices from Amazon, Wayfair, Wellbots, and
+        the home page for Sobro themselves. Once prices are all retrieved, they will be displayed side-by-side and compared with one another. The best price will be listed alongside the respective
+        retailer. Furthermore, I am also equipping this application with the ability to send an email out to whoever chooses to enroll. The email will notify users of when a price drop is found
+        from the normal listing price from any of the retailers.
+    </p>
+    <div class="vl"></div>
+    <div class="display">
+        <img 
+          id="image"
+          src="https://assets.wfcdn.com/im/12967801/resize-h755-w755%5Ecompr-r85/1171/117165768/Sobro+Smart+Coffee+Table.jpg" 
+          alt="Display of a black Sobro coffee table inside a decorated living room"
+        />
+        <!-- https://m.media-amazon.com/images/S/aplus-media-library-service-media/2397b37f-770c-4301-819f-0fad8c21afdf.__CR0,25,2921,1807_PT0_SX970_V1___.jpg -->
+        <div class="arrow"></div>
+        <div class="arrow"></div>
+        <span class="bestPrice">
+            <div>Best Price:</div>
+            <div id="bestRetailerPrice">--</div>
+            <div>From:</div>
+            <img id="bestRetailerLogo" src="https://www.amazon.com/favicon.ico" alt="Logo of retailer with best price."></img>
+        </span>
+    </div>
+    <div class='itemGrid'>
+        <!-- if on sale, target whole item and give border of green, else red border 
+        onclick="checkPrice(name, value)"-->
+        <div class='item'>
+            <div class="name">Wayfair</div>
+            <img class="logo" src="https://www.wayfair.com/favicon.ico" alt="Logo for Wayfair"/>
+            <div class="price" id="WayfairPrice">--</div> 
+            <button class="scrapeButton" name="https://www.wayfair.com/furniture/pdp/sobro-smart-coffee-table-sobr1001.html" value="1299.00">Click to see live price!</button>
+        </div>
+        <div class='item'>
+            <div class="name">Amazon</div>
+            <img class="logo" src="https://www.amazon.com/favicon.ico" alt="Logo for Amazon"/>
+            <div class="price" id="AmazonPrice">--</div> 
+            <button class="scrapeButton" name="https://www.amazon.com/Sobro-SOCTB300-Refrigerator-Bluetooth-Speakers/dp/B07S85JTZD" value="1299.99" onclick="getPrice(name, value, 'AmazonPrice')">Click to see live price!</button>
+        </div>
+        <div class='item'>
+            <div class="name">Sobro</div>
+            <img class="logo" src="https://sobrodesign.com/cdn/shop/files/SD-favicon_180x180.png?v=1613790171" alt="Logo for Sobro"/>
+            <div class="price" id="SobroPrice">--</div> 
+            <button class="scrapeButton" name="https://sobrodesign.com/products/sobro-coffee-table" value="1299.00" onclick="getPrice(name, value, 'SobroPrice')">Click to see live price!</button>
+        </div>
+        <div class='item'>
+            <div class="name">Wellbots</div>
+            <img class="logo" src="https://www.wellbots.com/cdn/shop/files/favicons-Wellbots_96x96.png?v=1653495444" alt="Logo for company"/>
+            <div class="price" id="WellbotsPrice">--</div> 
+            <button class="scrapeButton" name="https://www.wellbots.com/products/sobro-smart-coffee-table" value="1099.00" onclick="getPrice(name, value, 'WellbotsPrice')">Click to see live price!</button>
+        </div>
+        <!-- <div class='item'>
+            <div class="name">Macy's</div>
+            <img class="logo" src="" alt="Logo for company"/>
+            <div class="price" id="MacysPrice">--</div> 
+            <button class="scrapeButton" name="https://www.macys.com/shop/featured/sobro%20coffee%20table/Pageindex/1?cm_kws_ls=sobro%20coffee%20table" value="1700.00" onclick="getPrice(name, value, 'MacysPrice')">Click to see live price!</button>
+        </div> -->
+    </div>
+    <script>
+        async function getPrice(URL, VALUE, ID) {
+            try {
+                console.log("Starting fetch");
+                const response = await fetch(`http://localhost:3000/scrape?URL=${encodeURIComponent(URL)}&VALUE=${encodeURIComponent(VALUE)}`);
+                console.log("Finished fetch API"); //doesn't display this log on second button press
+
+                const data = await response.json();
+                console.log("Collected data");
+
+                console.log(data);
+                // console.log(JSON.stringify(data));
+                document.getElementById(ID).innerText = JSON.stringify(data); //populate given ID with data
+            }
+            catch (error) {
+                console.log("Something wrong in the button function.")
+            }
+        }
+    </script>
+</body>
+</html>
