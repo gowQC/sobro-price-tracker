@@ -5,4 +5,5 @@ So far, the retailers of interest are:
  - Macy's
  - Wayfair
  - Wellbots
+
 Don't expect all retailers to work perfectly with this program, since some domains prevent data scraping and are very finicky in their robots.txt files.
