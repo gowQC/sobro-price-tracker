@@ -25,9 +25,9 @@
     <div class="vl"></div>
     <div class="display">
         <img 
-          id="image"
-          src="https://assets.wfcdn.com/im/12967801/resize-h755-w755%5Ecompr-r85/1171/117165768/Sobro+Smart+Coffee+Table.jpg" 
-          alt="Display of a black Sobro coffee table inside a decorated living room"
+        id="image"
+        src="https://assets.wfcdn.com/im/12967801/resize-h755-w755%5Ecompr-r85/1171/117165768/Sobro+Smart+Coffee+Table.jpg" 
+        alt="Display of a black Sobro coffee table inside a decorated living room"
         />
         <!-- https://m.media-amazon.com/images/S/aplus-media-library-service-media/2397b37f-770c-4301-819f-0fad8c21afdf.__CR0,25,2921,1807_PT0_SX970_V1___.jpg -->
         <div class="arrow"></div>
@@ -40,8 +40,7 @@
         </span>
     </div>
     <div class='itemGrid'>
-        <!-- if on sale, target whole item and give border of green, else red border 
-        onclick="checkPrice(name, value)"-->
+        <!-- if on sale, target whole item and give border of green, else red border -->
         <div class='item'>
             <div class="name">Wayfair</div>
             <img class="logo" src="https://www.wayfair.com/favicon.ico" alt="Logo for Wayfair"/>
@@ -73,19 +72,37 @@
             <button class="scrapeButton" name="https://www.macys.com/shop/featured/sobro%20coffee%20table/Pageindex/1?cm_kws_ls=sobro%20coffee%20table" value="1700.00" onclick="getPrice(name, value, 'MacysPrice')">Click to see live price!</button>
         </div> -->
     </div>
+
     <script>
+        function pageLoad(){
+            //transition main page to darker color
+            document.body.style.animation = "darken";
+
+            //have loading gif occupy center of the screen in a medium-sized box
+            //let loader = document.getElementById("loader");
+            //loader.style.animation = "visible";
+        }
+
+        function pageLoadFinish() {
+            //reverse darkening of page
+            document.body.style.animation = "lighten";
+
+            //reverse gif visibility
+            //let loader = document.getElementById("loader");
+        }
+
         async function getPrice(URL, VALUE, ID) {
             try {
-                console.log("Starting fetch");
+                pageLoad(); //calls loading gif and ends loading gif on alert
                 const response = await fetch(`http://localhost:3000/scrape?URL=${encodeURIComponent(URL)}&VALUE=${encodeURIComponent(VALUE)}`);
-                console.log("Finished fetch API"); //doesn't display this log on second button press
-
                 const data = await response.json();
-                console.log("Collected data");
 
-                console.log(data);
-                // console.log(JSON.stringify(data));
-                document.getElementById(ID).innerText = JSON.stringify(data); //populate given ID with data
+                //assign data
+                alert(data.Message); //updates message
+                document.getElementById(ID).innerText = data.Price; //updates price
+                document.getElementById(ID).style.borderColor = data.Color; //updates border color
+
+                pageLoadFinish();
             }
             catch (error) {
                 console.log("Something wrong in the button function.")

@@ -1,4 +1,6 @@
 //npm run dev - terminal command that starts server with nodemon so changes to server code immediately apply on live server
+//npx kill-port 3000 - command that kills port 3000 (can replace 3000 with whatever)
+//https://stackoverflow.com/questions/15718649/how-to-publish-a-website-made-by-node-js-to-github-pages - possible server hosts
 
 import express from 'express';
 import cors from 'cors'
@@ -12,9 +14,7 @@ app.use(cors());
 // Define route to scrape prices
 app.get('/scrape', async (req, res) => {
     try {
-        console.log("route accessed")
-        const { URL, VALUE } = req.query; //ask about req.query
-        console.log("const declared")
+        const { URL, VALUE } = req.query;
         const info = await scrapePrice(URL, VALUE);
         res.status(200).json(info);
     } catch (error) {
@@ -24,7 +24,7 @@ app.get('/scrape', async (req, res) => {
 });
 
 // Start server
-const port = 3000;
+const port = process.env.PORT || 3000;
 app.listen(port, () => {
     console.log('Server is running on port ' + port);
 });
