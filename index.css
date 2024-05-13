@@ -7,19 +7,23 @@
 body {
     background-color: powderblue;
     margin: 0px;
-    font-family: gill sans, sans-serif;
-    filter: brightness(1);
-    backdrop-filter: brightness(1); /*.9*/
-    animation-duration: .5s;
+    font-family: sans-serif;
+    /* filter and backdrop-filter used in bodyBrightness class to limit any intense resource usage */
+    animation-duration: 0.2s;
     animation-fill-mode: forwards;
 }
 
-/* @keyframes darken {
+.bodyBrightness {
+    filter: brightness(1);
+    backdrop-filter: brightness(1);
+}
+
+@keyframes darken {
     0% {
         filter: brightness(1);
     }
     100% {
-        filter: brightness(.4);
+        filter: brightness(.1);
     }
 }
 
@@ -30,7 +34,7 @@ body {
     100% {
         filter: brightness(1);
     }
-} */
+}
 
 header {
     color: rgb(25, 32, 94);
@@ -183,17 +187,26 @@ header {
     top: 40%;
     left: 30%;
     border-radius: 25px;
-    /* display: flex; /*default display is none for when no button is pressed*/
-    /* opacity: 1; */
-    /* z-index: 100; */
+    animation-duration: 0.2s;
+    animation-fill-mode: forwards;
+    opacity: 0;
+    z-index: 100;
 }
 
-/* @keyframes visible {
-    0% {
-        
+@keyframes visible {
+    0% { 
+        opacity: 0;
+    }
+    100% {
+        opacity: 100;
     }
 }
 
 @keyframes invisible {
-
-} */
+    0% {
+        opacity: 100;
+    }
+    100% {
+        opacity: 0;
+    }
+}
